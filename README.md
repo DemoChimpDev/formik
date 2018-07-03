@@ -1,10 +1,22 @@
-![](https://user-images.githubusercontent.com/4060187/27243721-3b5219d0-52b1-11e7-96f1-dae8391a3ef6.png)
-
 [![gzip size](http://img.badgesize.io/https://unpkg.com/formik/dist/formik.umd.min.js?compression=gzip)](https://unpkg.com/formik/dist/formik.umd.min.js)
 [![Build Status](https://travis-ci.org/jaredpalmer/formik.svg?branch=master)](https://travis-ci.org/jaredpalmer/formik)
 [![npm](https://img.shields.io/npm/v/formik.svg)](https://npm.im/formik)
 [![license](https://img.shields.io/npm/l/formik.svg)](./LICENSE)
 [![Discord](https://img.shields.io/discord/102860784329052160.svg?style=flat-square)](https://discord.gg/cU6MCve)
+
+## Fork changes
+
+1. Adds `onChange` and `onInit` functions to formik `Formik` component props to support form sync where needed
+2. Adds `handleChange` and `handleInit` functions to `withFormik`
+
+`onChange` and `handleChange` signatures are identical to `onSubmit` and `handleSubmit`
+
+`onInit` and `handleInit` signatures are identical to `onSubmit` and `handleSubmit` with first `values` argument dropped.
+
+`onInit` and `handleInit` functions return handlers to formik control functions, which could be used to update form state upon sync events.
+
+
+# Original Formik docs follows now
 
 ## Overview
 

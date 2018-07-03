@@ -46,6 +46,16 @@ export interface WithFormikConfig<
   handleSubmit: (values: Values, formikBag: FormikBag<Props, Values>) => void;
 
   /**
+   * Change handler
+   */
+  handleChange?: (values: Values, formikBag: FormikBag<Props, Values>) => void;
+
+  /**
+   * Init handler
+   */
+  handleInit?: (formikBag: FormikBag<Props, Values>) => void;
+
+  /**
    * Map props to the form values
    */
   mapPropsToValues?: (props: Props) => Values;
@@ -136,6 +146,24 @@ export function withFormik<
         });
       };
 
+      handleChange = (values: Values, actions: FormikActions<Values>) => {
+        if (config.handleChange) {
+          return config.handleChange(values, {
+            ...actions,
+            props: this.props,
+          });
+        }
+      };
+
+      handleInit = (actions: FormikActions<Values>) => {
+        if (config.handleInit) {
+          return config.handleInit({
+            ...actions,
+            props: this.props,
+          });
+        }
+      };
+
       /**
        * Just avoiding a render callback for perf here
        */
@@ -152,6 +180,8 @@ export function withFormik<
             validationSchema={config.validationSchema && this.validationSchema}
             initialValues={mapPropsToValues(this.props)}
             onSubmit={this.handleSubmit as any}
+            onChange={this.handleChange as any}
+            onInit={this.handleInit as any}
             render={this.renderFormComponent}
           />
         );

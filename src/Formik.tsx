@@ -74,6 +74,10 @@ export class Formik<ExtraProps = {}, Values = object> extends React.Component<
       !(props.render && props.children && !isEmptyChildren(props.children)),
       'You should not use <Formik render> and <Formik children> in the same <Formik> component; <Formik children> will be ignored'
     );
+
+    if (this.props.onInit) {
+      this.props.onInit(this.getFormikActions());
+    }
   }
 
   registerField = (
@@ -230,10 +234,17 @@ export class Formik<ExtraProps = {}, Values = object> extends React.Component<
 
       if (field) {
         // Set form fields by name
-        this.setState(prevState => ({
-          ...prevState,
-          values: setIn(prevState.values, field!, val),
-        }));
+        this.setState(
+          prevState => ({
+            ...prevState,
+            values: setIn(prevState.values, field!, val),
+          }),
+          () => {
+            if (this.props.onChange) {
+              this.props.onChange(this.state.values, this.getFormikActions());
+            }
+          }
+        );
 
         if (this.props.validateOnChange) {
           this.runValidations(setIn(this.state.values, field, val));
