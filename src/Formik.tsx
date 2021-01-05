@@ -33,6 +33,7 @@ export class Formik<Values = {}, ExtraProps = {}> extends React.Component<
     validateOnBlur: true,
     isInitialValid: false,
     enableReinitialize: false,
+    allowSubmitWithErrors: false,
   };
 
   initialValues: Values;
@@ -434,11 +435,15 @@ export class Formik<Values = {}, ExtraProps = {}> extends React.Component<
 
     return this.runValidations().then(combinedErrors => {
       const isValid = Object.keys(combinedErrors).length === 0;
-      if (isValid) {
+      if (this.props.allowSubmitWithErrors) {
         this.executeSubmit();
-      } else if (this.didMount) {
-        // ^^^ Make sure Formik is still mounted before calling setState
-        this.setState({ isSubmitting: false });
+      } else {
+        if (isValid) {
+          this.executeSubmit();
+        } else if (this.didMount) {
+          // ^^^ Make sure Formik is still mounted before calling setState
+          this.setState({ isSubmitting: false });
+        }
       }
     });
   };

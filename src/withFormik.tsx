@@ -66,6 +66,11 @@ export interface WithFormikConfig<
   validationSchema?: any | ((props: Props) => any);
 
   /**
+   * Calls submit even though there are validation errors
+   */
+  allowSubmitWithErrors?: boolean;
+
+  /**
    * Validation function. Must return an error object or promise that
    * throws an error object where that object keys map to corresponding value.
    */

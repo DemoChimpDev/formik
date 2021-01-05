@@ -219,6 +219,11 @@ export interface FormikConfig<Values> extends FormikSharedConfig {
   ) => void | object | Promise<FormikErrors<Values>>);
 
   /**
+   * Calls submit even though there are validation errors
+   */
+  allowSubmitWithErrors?: boolean;
+
+  /**
    * React children or child render callback
    */
   children?:
